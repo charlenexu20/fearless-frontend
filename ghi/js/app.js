@@ -16,42 +16,57 @@ function createCard(name, description, pictureUrl, starts, ends, location) {
 `;
   }
 
-  window.addEventListener('DOMContentLoaded', async () => {
-    const url = 'http://localhost:8000/api/conferences/';
+  function alert(){
+    return`
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">There was an error loading the conference data. </h4>
+        <p></p>
+        <p>Please try again later.</p>
+    </div>
+    `
+  }
 
+
+window.addEventListener('DOMContentLoaded', async () => {
+    const url = 'http://localhost:8000/api/conferences/';
     try {
       const response = await fetch(url);
-
       if (!response.ok) {
         // Figure out what to do when the response is bad
-        throw new Error('Response not ok');
+        const body = document.querySelector('main');
+        const error = alert();
+        body.innerHTML += error;
       } else {
-
         const data = await response.json();
-
         for (let conference of data.conferences) {
           const detailUrl = `http://localhost:8000${conference.href}`;
           const detailResponse = await fetch(detailUrl);
           if (detailResponse.ok) {
             const details = await detailResponse.json();
-
-            const title = details.conference.name;
+            const name = details.conference.name;
             const description = details.conference.description;
             const pictureUrl = details.conference.location.picture_url;
             const starts = new Date(details.conference.starts);
             const ends = new Date(details.conference.ends);
             const location = details.conference.location.name;
-            const html = createCard(title, description, pictureUrl,
+            const html = createCard(name, description, pictureUrl,
             starts.toLocaleDateString('en-US'), ends.toLocaleDateString('en-US'), location);
             console.log(html);
-
             const row = document.querySelector('.row');
             row.innerHTML += html;
           }
         }
+
+
       }
+
     } catch (e) {
       // Figure out what to do if an error is raised
+
+      const body = document.querySelector('main');
+      const error = alert();
+      body.innerHTML += error;
       console.error('error', e);
+
     }
   });
