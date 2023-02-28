@@ -16,7 +16,10 @@ function Nav() {
           </li>
           <li className="nav-item">
             <a className="nav-link" aria-current="page" href="new-conference.html">New conference</a>
-        </li>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link active" aria-current="page" href="new-presentation.html">New presentation</a>
+          </li>
         </ul>
       </div>
     </div>
