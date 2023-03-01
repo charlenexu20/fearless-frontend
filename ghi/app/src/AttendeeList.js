@@ -1,12 +1,5 @@
-import Nav from "./Nav";
-
-function App(props) {
-  if (props.attendees == undefined) {
-    return null;
-  }
-  return (
-    <><Nav />
-    <div className="container">
+function AttendeesList(props) {
+    return (
       <table className="table table-striped">
         <thead>
           <tr>
@@ -25,8 +18,7 @@ function App(props) {
           })}
         </tbody>
       </table>
-    </div></>
-  );
+    );
 }
 
-export default App;
+  export default AttendeesList;
